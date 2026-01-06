@@ -42,7 +42,7 @@ REPORT_DIR.mkdir(exist_ok=True)
 # Style table
 styled = (
     mean_df_summary.style
-        .applymap(color_pos_neg)
+        .map(color_pos_neg)
         .format("{:.4f}")
         .set_caption(
             "Rolling Mean Returns Summary<br>"
@@ -52,7 +52,7 @@ styled = (
 
 # Load price
 prices = pd.read_sql(
-    "SELECT date, ticker, close FROM prices",
+    "SELECT date, ticker, price FROM prices",
     conn,
     parse_dates=["date"]
 )

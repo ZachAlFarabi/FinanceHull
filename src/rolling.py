@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import pickle
 from .db import get_connection, init_db
-from .config import TICKERS
 
 WINDOW = 60  # trading days
 
