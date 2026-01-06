@@ -2,8 +2,7 @@ import pandas as pd
 import sqlite3
 
 conn = sqlite3.connect("data/finance_hull.db")
-from src.ingest import TICKERS
-
+from src.config import TICKERS
 
 # Example: Rolling stats summary
 rolling = pd.read_sql("SELECT * FROM rolling_stats", conn)

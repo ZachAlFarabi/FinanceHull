@@ -7,16 +7,7 @@ from db import get_connection, init_db
 
 DB_PATH = "data/market_data.db"
 
-TICKERS = {
-    "SP500": "^GSPC",
-    "NASDAQ": "^NDX",
-    "RUSSELL": "^RUT",
-    "ASX200": "^AXJO",
-    "TREASURY": "IEF",
-    "HY_CREDIT": "HYG",
-    "GOLD": "GLD",
-    "VIX": "^VIX"
-}
+from src.config import TICKERS
 
 START = "2015-01-01"
 
