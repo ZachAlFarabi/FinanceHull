@@ -52,14 +52,14 @@ styled = (
 
 # Load price
 prices = pd.read_sql(
-    "SELECT date, ticker, price FROM prices",
+    "SELECT date, ticker, value FROM prices",
     conn,
     parse_dates=["date"]
 )
 
 price_pivot = (
     prices
-    .pivot(index="date", columns="ticker", values="close")
+    .pivot(index="date", columns="ticker", values="value")
     .sort_index()
 )
 
