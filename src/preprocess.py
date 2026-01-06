@@ -1,51 +1,39 @@
 # src/preprocess.py
 # The purpose of this script is to compute log-returns for further processing
 
-import sqlite3
 import pandas as pd
 import numpy as np
+from db import get_connection, init_db
 
-DB_PATH = "data/market_data.db"
+def main():
+    init_db()
+    conn = get_connection()
 
-def compute_log_returns():
-    # Conn to db
-    conn = sqlite3.connect(DB_PATH)
-
-    # Read price
     prices = pd.read_sql(
-        "SELECT date, asset, adj_close FROM prices ORDER BY date",
+        "SELECT * FROM prices",
         conn,
         parse_dates=["date"]
     )
 
-    returns = []
+    prices = prices.sort_values(["ticker", "date"])
 
-    # Go through assets, sort by date, find log returns to temp
-    for asset, g in prices.groupby("asset"):
-        g = g.sort_values("date")
-        log_ret = np.log(g.adj_close).diff()
+    prices["log_return"] = prices.groupby("ticker")["adj_close"] \
+        .apply(lambda x: np.log(x / x.shift(1)))
 
-        tmp = pd.DataFrame({
-            "date": g.date,
-            "asset": asset,
-            "log_return": log_ret
-        })
+    prices = prices.dropna(subset=["log_return"])
 
-        returns.append(tmp)
+    records = [
+        (row.date.strftime("%Y-%m-%d"), row.ticker, float(row.log_return))
+        for row in prices.itertuples()
+    ]
 
-    # Concat and replace
-    returns_df = pd.concat(returns).dropna()
-
-    returns_df.to_sql(
-        "returns",
-        conn,
-        if_exists="replace",
-        index=False
+    conn.executemany(
+        "INSERT OR REPLACE INTO returns VALUES (?, ?, ?)",
+        records
     )
 
+    conn.commit()
     conn.close()
-    print("Computed log-returns and stored in SQLite.")
-
 
 if __name__ == "__main__":
-    compute_log_returns()
+    main()

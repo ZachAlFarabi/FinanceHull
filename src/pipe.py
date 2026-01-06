@@ -1,5 +1,6 @@
 # src/pipe.py
 
+from db import init_db
 import subprocess
 import sys
 

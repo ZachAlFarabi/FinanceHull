@@ -1,10 +1,9 @@
 # src/ingest.py
 # The purpose of this script is to download the adjusted prices and store as SQL db
 
-import os
-import sqlite3
 import yfinance as yf
 import pandas as pd
+from db import get_connection, init_db
 
 DB_PATH = "data/market_data.db"
 
@@ -19,45 +18,28 @@ TICKERS = {
     "VIX": "^VIX"
 }
 
-START_DATE = "2000-01-01"
+START = "2000-01-01"
 
 
-def ingest_prices():
-    # Directory existance
-    os.makedirs("data", exist_ok=True)
+def main():
+    init_db()
+    conn = get_connection()
 
-    # Download index prices
-    prices = yf.download(
-        list(TICKERS.values()),
-        start=START_DATE,
-        auto_adjust=True,
-        progress=False
-    )["Close"]
+    data = yf.download(TICKERS, start=START, auto_adjust=True)["Close"]
 
-    # Make keys
-    prices.columns = TICKERS.keys()
-    prices = prices.dropna(how="all")
+    records = []
+    for date, row in data.iterrows():
+        for ticker in TICKERS:
+            if pd.notna(row[ticker]):
+                records.append((date.strftime("%Y-%m-%d"), ticker, float(row[ticker])))
 
-    # Asset and long prices
-    prices_long = (
-        prices
-        .reset_index()
-        .melt(id_vars="Date", var_name="asset", value_name="adj_close")
-        .rename(columns={"Date": "date"})
+    conn.executemany(
+        "INSERT OR REPLACE INTO prices VALUES (?, ?, ?)",
+        records
     )
 
-    # Conn
-    conn = sqlite3.connect(DB_PATH)
-    prices_long.to_sql(
-        "prices",
-        conn,
-        if_exists="replace",
-        index=False
-    )
-
+    conn.commit()
     conn.close()
-    print("Ingested adjusted prices into SQLite.")
-
 
 if __name__ == "__main__":
-    ingest_prices()
+    main()
