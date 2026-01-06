@@ -13,12 +13,10 @@ def main():
         "SELECT * FROM prices",
         conn,
         parse_dates=["date"]
-    )
+    ).sort_values(["ticker", "date"])
 
-    prices = prices.sort_values(["ticker", "date"])
-
-    prices["log_return"] = prices.groupby("ticker")["adj_close"] \
-        .apply(lambda x: np.log(x / x.shift(1)))
+    # Fixed log-return calculation
+    prices["log_return"] = prices.groupby("ticker")["adj_close"].transform(lambda x: np.log(x / x.shift(1)))
 
     prices = prices.dropna(subset=["log_return"])
 
