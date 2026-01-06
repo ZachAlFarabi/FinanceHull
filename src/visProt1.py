@@ -52,14 +52,14 @@ styled = (
 
 # Load price
 prices = pd.read_sql(
-    "SELECT date, ticker, value FROM prices",
+    "SELECT date, ticker, adj_close FROM prices",
     conn,
     parse_dates=["date"]
 )
 
 price_pivot = (
     prices
-    .pivot(index="date", columns="ticker", values="value")
+    .pivot(index="date", columns="ticker", values="adj_close")
     .sort_index()
 )
 
@@ -75,7 +75,7 @@ for ticker in price_1y.columns:
 
 plt.title("Asset Prices – Past 12 Months")
 plt.xlabel("Date")
-plt.ylabel("Price")
+plt.ylabel("Adjusted Close")
 plt.legend()
 plt.tight_layout()
 plt.savefig(REPORT_DIR / "prices_1y.png")
