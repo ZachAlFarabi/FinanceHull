@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 from db import get_connection, init_db
+from .config import TICKERS
 
 def main():
     init_db()

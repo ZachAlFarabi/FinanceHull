@@ -4,10 +4,9 @@
 import yfinance as yf
 import pandas as pd
 from db import get_connection, init_db
+from .config import TICKERS
 
 DB_PATH = "data/market_data.db"
-
-from src.config import TICKERS
 
 START = "2015-01-01"
 
