@@ -8,6 +8,7 @@ STEPS = [
     "ingest.py",
     "preprocess.py",
     "rolling.py",
+    "visProt1.py"
 ]
 
 def run_step(script):
