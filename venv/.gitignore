@@ -1,0 +1,15 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# OS
+.DS_Store
+
+# Data (optional decision)
+data/*.db
+
