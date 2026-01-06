@@ -12,13 +12,12 @@ STEPS = [
 ]
 
 def run_step(script):
-    print(f"\n=== Running {script} ===")
-    result = subprocess.run(
-        [sys.executable, f"src/{script}"],
+    # Remove 'src/' from the path, just use module name
+    module_name = script.replace(".py", "")
+    subprocess.run(
+        [sys.executable, "-m", f"src.{module_name}"],
         check=True
     )
-    return result.returncode
-
 
 def main():
     for step in STEPS:
