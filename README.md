@@ -61,4 +61,3 @@ Run the following:
 python3 ./src/pipe.py
 open reports/mean_summary.html
 ```
-
