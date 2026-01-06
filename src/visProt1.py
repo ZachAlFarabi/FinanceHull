@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlite3
 from .config import TICKERS
+from pathlib import Path
 
 conn = sqlite3.connect("data/finance_hull.db")
 
@@ -15,8 +16,11 @@ rolling['cov_matrix'] = rolling['cov_matrix'].apply(lambda x: np.array(pickle.lo
 mean_df = pd.DataFrame(rolling['mean_vector'].to_list(), columns=list(TICKERS.keys()))
 mean_df_summary = mean_df.describe().T  # transpose for pivot-like view
 
+REPORT_DIR = Path("reports")
+REPORT_DIR.mkdir(exist_ok=True)
+
 # Color code
 styled = mean_df_summary.style.background_gradient(cmap='RdYlGn', axis=1)
-styled.to_html("reports/mean_summary.html")  # save HTML file
+styled.to_html(REPORT_DIR / "mean_summary.html")
 
 print("Saved HTML report to reports/mean_summary.html")
