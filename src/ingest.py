@@ -18,21 +18,26 @@ TICKERS = {
     "VIX": "^VIX"
 }
 
-START = "2000-01-01"
-
+START = "2015-01-01"
 
 def main():
     init_db()
     conn = get_connection()
 
-    data = yf.download(TICKERS, start=START, auto_adjust=True)["Close"]
+    # Extract only the ticker symbols for yfinance
+    ticker_list = list(TICKERS.values())
 
+    # Download prices
+    data = yf.download(ticker_list, start=START, auto_adjust=True)["Close"]
+
+    # Flatten the DataFrame into rows for SQLite
     records = []
     for date, row in data.iterrows():
-        for ticker in TICKERS:
+        for name, ticker in TICKERS.items():
             if pd.notna(row[ticker]):
-                records.append((date.strftime("%Y-%m-%d"), ticker, float(row[ticker])))
+                records.append((date.strftime("%Y-%m-%d"), name, float(row[ticker])))
 
+    # Insert into database
     conn.executemany(
         "INSERT OR REPLACE INTO prices VALUES (?, ?, ?)",
         records
