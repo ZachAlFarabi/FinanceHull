@@ -63,7 +63,8 @@ price_pivot = (
     .sort_index()
 )
 
-price_1y = price_pivot.tail(252)
+tail_price = 1200;
+price_1y = price_pivot.tail(tail_price)
 
 price_1y.to_csv(REPORT_DIR / "prices_1y.csv")
 
@@ -74,7 +75,7 @@ for ticker in price_1y.columns:
     plt.plot(price_1y.index, price_1y[ticker], label=ticker)
 
 plt.yscale("log")
-plt.title("Asset Prices - Past 12 Months")
+plt.title("Asset Prices - past {tail_price} days")
 plt.xlabel("Date")
 plt.ylabel("Adjusted Close Log Price")
 plt.legend()
