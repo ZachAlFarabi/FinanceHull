@@ -78,10 +78,15 @@ plt.yscale("log")
 plt.title("Asset Prices - past {tail_price} days")
 plt.xlabel("Date")
 plt.ylabel("Adjusted Close Log Price")
-plt.legend()
 plt.tight_layout()
 plt.savefig(REPORT_DIR / "prices_1y.png")
 plt.close()
+plt.legend(
+    loc="center left",
+    bbox_to_anchor=(1.02, 0.5),
+    frameon=False
+)
+
 
 # Extend html
 html_extra = """
