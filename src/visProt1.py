@@ -73,9 +73,10 @@ plt.figure(figsize=(10, 5))
 for ticker in price_1y.columns:
     plt.plot(price_1y.index, price_1y[ticker], label=ticker)
 
-plt.title("Asset Prices – Past 12 Months")
+plt.yscale("log")
+plt.title("Asset Prices - Past 12 Months")
 plt.xlabel("Date")
-plt.ylabel("Adjusted Close")
+plt.ylabel("Adjusted Close Log Price")
 plt.legend()
 plt.tight_layout()
 plt.savefig(REPORT_DIR / "prices_1y.png")
