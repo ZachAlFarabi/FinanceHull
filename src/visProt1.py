@@ -75,18 +75,19 @@ for ticker in price_1y.columns:
     plt.plot(price_1y.index, price_1y[ticker], label=ticker)
 
 plt.yscale("log")
-plt.title("Asset Prices - past {tail_price} days")
+plt.title(f"Asset Prices – Past {tail_price} Days")
 plt.xlabel("Date")
-plt.ylabel("Adjusted Close Log Price")
-plt.tight_layout()
-plt.savefig(REPORT_DIR / "prices_1y.png")
-plt.close()
+plt.ylabel("Adjusted Close (Log Scale)")
+
 plt.legend(
     loc="center left",
     bbox_to_anchor=(1.02, 0.5),
     frameon=False
 )
 
+plt.tight_layout()
+plt.savefig(REPORT_DIR / "prices_1y.png", bbox_inches="tight")
+plt.close()
 
 # Extend html
 html_extra = """
