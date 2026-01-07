@@ -63,7 +63,7 @@ price_pivot = (
     .sort_index()
 )
 
-tail_price = 1200;
+tail_price = 2100;
 price_1y = price_pivot.tail(tail_price)
 
 price_1y.to_csv(REPORT_DIR / "prices_1y.csv")
