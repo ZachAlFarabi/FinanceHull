@@ -32,8 +32,8 @@ src/
 data/
 - finance_hull.db  # SQLite database 
 
-requirements.txt   # Reproducible environment 
-README.md
+- requirements.txt   # Reproducible environment 
+- README.md
 
 ---
 
