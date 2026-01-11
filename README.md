@@ -21,18 +21,18 @@ The emphasis is on **theory-driven, data-heavy, reproducible research**.
 ## Repository Structure
 
 src/
-  config.py        # Ticker configuration and constants __
-  db.py            # SQLite schema and connection helpers __
-  ingest.py        # Market data acquisition __
-  preprocess.py    # Cleaning, alignment, log-returns __
-  rolling.py       # Rolling multivariate statistics __
-  visProt1.py      # HTML report & visual diagnostics __
-  pipe.py          # Orchestrates full pipeline __
+  config.py        # Ticker configuration and constants \
+  db.py            # SQLite schema and connection helpers \
+  ingest.py        # Market data acquisition \
+  preprocess.py    # Cleaning, alignment, log-returns \
+  rolling.py       # Rolling multivariate statistics \
+  visProt1.py      # HTML report & visual diagnostics \
+  pipe.py          # Orchestrates full pipeline \
 
 data/
-  finance_hull.db  # SQLite database __
+  finance_hull.db  # SQLite database \
 
-requirements.txt   # Reproducible environment __
+requirements.txt   # Reproducible environment \
 README.md
 
 ---
